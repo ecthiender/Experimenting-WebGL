@@ -19,8 +19,10 @@ init();
 animate();
 
 function init() {
-    
-    
+
+  if(!Detector.webgl) {
+    Detector.addGetWebGLMessage(document.body);
+  }
     clock = new t.Clock();
     //camera = new t.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
     cam = new t.PerspectiveCamera(60, ASPECT, 1, 10000); // Field Of Viw, aspect ratio, near, far
@@ -164,7 +166,6 @@ function animate() {
 }
 
 function onDocumentMouseMove(e) {
-    
     e.preventDefault();
     mouse.x = (e.clientX / WIDTH) * 2 - 1;
     mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
