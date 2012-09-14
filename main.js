@@ -320,8 +320,7 @@ Model.prototype.initBookBuffers = function(){
 	// -0.5, 0.1, -0.5,
 	// -0.5, 0.1, 0.5
     ]);
-    
-    this.bookBuffers.textureBuffer = kin.createArrayBuffer([
+        this.bookBuffers.textureBuffer = kin.createArrayBuffer([
 	0, 0.1, 0, 0, 0.1, 0, 0.1, 0.1
     ]);
     

@@ -203,42 +203,42 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 			if ( this.moveForward || ( this.autoForward && !this.moveBackward ) ) {
 				this.object.translateZ( - ( actualMoveSpeed + this.autoSpeedFactor ) );
-				if (checkWallCollision(this.object.position)) {
-					this.object.translateZ( actualMoveSpeed + this.autoSpeedFactor );
-				}
+				//if (checkWallCollision(this.object.position)) {
+					//this.object.translateZ( actualMoveSpeed + this.autoSpeedFactor );
+				//}
 			}
 			if ( this.moveBackward ) {
 				this.object.translateZ( actualMoveSpeed );
-				if (checkWallCollision(this.object.position)) {
-					this.object.translateZ( - actualMoveSpeed );
-				}
+				//if (checkWallCollision(this.object.position)) {
+					//this.object.translateZ( - actualMoveSpeed );
+				//}
 			}
 
 			if ( this.moveLeft ) {
 				this.object.translateX( - actualMoveSpeed );
-				if (checkWallCollision(this.object.position)) {
-					this.object.translateX( actualMoveSpeed );
-				}
+				//if (checkWallCollision(this.object.position)) {
+					//this.object.translateX( actualMoveSpeed );
+				//}
 			}
 			if ( this.moveRight ) {
 				this.object.translateX( actualMoveSpeed );
-				if (checkWallCollision(this.object.position)) {
-					this.object.translateX( - actualMoveSpeed );
-				}
+				//if (checkWallCollision(this.object.position)) {
+					//this.object.translateX( - actualMoveSpeed );
+				//}
 			}
 
 			if (!this.noFly) {
 				if ( this.moveUp ) {
 					this.object.translateY( actualMoveSpeed );
-					if (checkWallCollision(this.object.position)) {
-						this.object.translateY( - actualMoveSpeed );
-					}
+					//if (checkWallCollision(this.object.position)) {
+						//this.object.translateY( - actualMoveSpeed );
+					//}
 				}
 				if ( this.moveDown ) {
 					this.object.translateY( - actualMoveSpeed );
-					if (checkWallCollision(this.object.position)) {
-						this.object.translateY( actualMoveSpeed );
-					}
+					//if (checkWallCollision(this.object.position)) {
+						//this.object.translateY( actualMoveSpeed );
+					//}
 				}
 			}
 
