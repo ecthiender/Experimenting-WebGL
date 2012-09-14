@@ -22,13 +22,25 @@
     		new Controller();
 	};
 </script> -->
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
  <script type="text/javascript" src="Three.js"></script>
  <script type="text/javascript" src="Three.FirstPersonControls.js"></script>
  <script type="text/javascript" src="threex.domevent.js"></script>
  <script type="text/javascript" src="threex.domevent.object3d.js"></script>
+ <script type="text/javascript" src="game-shim.js"></script>
     </head>
     <body>
       <!-- <canvas></canvas> -->
-       <script type="text/javascript" src="index.js"></script>
+      <!--button id="fullScreen">Fullscreen</button>
+      <script type="text/javascript">
+    //$(document).ready(function(){
+	$("#fullScreen").click(function(){
+	    console.log($("canvas").get(0).requestFullScreen);
+	    document.documentElement.requestFullScreen();
+	    GameShim.supports.pointerLock && document.documentElement.requestPointerLock();
+	});
+    //});
+</script-->
+      <script type="text/javascript" src="index.js"></script>
     </body>
     </html>
