@@ -11,15 +11,27 @@
       }
 
     </style>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
-    <script type="text/javascript" src="Detector.js"></script>
-    <script type="text/javascript" src="Three.js"></script>
-    <script type="text/javascript" src="Three.FirstPersonControls.js"></script>
-    <script type="text/javascript" src="threex.domevent.js"></script>
-    <script type="text/javascript" src="threex.domevent.object3d.js"></script>
-    <script type="text/javascript" src="game-shim.js"></script>
+    <!--script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script-->
+    <script type="text/javascript" src="lib/Detector.js"></script>
+    <script type="text/javascript" src="lib/Three.js"></script>
+    <script type="text/javascript" src="lib/Three.FirstPersonControls.js"></script>
+    <script type="text/javascript" src="lib/threex.domevent.js"></script>
+    <script type="text/javascript" src="lib/threex.domevent.object3d.js"></script>
+    <script type="text/javascript" src="lib/game-shim.js"></script>
   </head>
   <body>
       <script type="text/javascript" src="index.js"></script>
+      <script type="text/javascript">
+        /* 
+           load event fires at the end of the document loading process. 
+           At this point, all of the objects in the document are in the DOM,
+           and all the images and sub-frames have finished loading.
+         */
+        window.onload = function() {
+          init();
+          animate();
+        };
+      </script>
    </body>
 </html>
+
