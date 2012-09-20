@@ -84,7 +84,7 @@ function init() {
   crate.position.z = -100;
   crate.position.y = -500;
   crate.rotation.y = Math.random() * Math.PI;
-  scene.add(crate);
+  //scene.add(crate);
 
   var book_faces = ['0xFFFFFF', 'gitanjali.jpg', '0xFFFFFF', '0xFFFFFF', 'gitanjali.jpg', 'gitanjali.jpg'];
   var book = createMesh([100, 180, 20], book_faces, [1, 1, 1]);
@@ -104,6 +104,8 @@ function init() {
     book.position.y = -230;
   });
 
+
+  drawRadar();
 
   /* Render the scene */
   renderer = new t.WebGLRenderer({antialias: true});
@@ -184,4 +186,25 @@ function onWindowResize() {
   cam.aspect = window.innerWidth / window.innerHeight;
   cam.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function drawRadar() {
+  /*var elem = document.createElement('div');
+  elem.id = "radar";
+  elem.style.height = "200px";
+  elem.style.width = "200px";
+  elem.style.background = 'black';
+
+  var canvas = document.getElementsByTagName('canvas')[0];
+  canvas.appendChild(elem);
+  var radar = document.getElementById('radar');
+  console.log(radar);*/
+
+  //var radar = new t.Mesh(
+  //  new t.PlaneGeometry(200, 200),
+  //  new t.MeshBasicMaterial({color: 0xFFFFFF})
+  //);
+  var radar = createMesh([200, 200, 1], '0xFFFFFF');
+  radar.position.x = -500;
+  scene.add(radar);
 }
