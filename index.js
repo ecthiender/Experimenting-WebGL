@@ -14,10 +14,10 @@ var map = {
           };
 
 var walls = {
-  front: {x: -50, y: 0, z: -1000},
-  back: {x: -50, y: 0, z: 1000},
-  left: {x: -1050, y: 0, z: 0},
-  right: {x: 950, y: 0, z: 0}
+  front: {x: 0, y: 0, z: -1000},
+  back: {x: 0, y: 0, z: 1000},
+  left: {x: -1000, y: 0, z: 0},
+  right: {x: 1000, y: 0, z: 0}
 };
 
 var walls2 = {
@@ -57,12 +57,12 @@ function init() {
 
   /* Room 1 */
   var floor = createMesh([2000, 10, 2000], 'Library_Ceiling.jpg');
-  floor.position.x = -50;
+  //floor.position.x = -50;
   floor.position.y = -650;
   scene.add(floor);
 
   var ceiling = createMesh([2000, 10, 2000], 'NYC_ceiling.jpg');
-  ceiling.position.x = -50;
+  //ceiling.position.x = -50;
   ceiling.position.y = 650;
   scene.add(ceiling);
 
@@ -85,12 +85,21 @@ function init() {
   left_wall.rotation.y = 1.57;
   scene.add(left_wall);
 
-  var right_wall = createMesh([2000, 1300, 10], 'painting.JPG');
+  var right_wall = createMesh([2000, 1300, 10], 'wood_wall.jpg');
   right_wall.position.x = walls.right.x;
   right_wall.position.y = walls.right.y;
   right_wall.position.z = walls.right.z;
   right_wall.rotation.y = -1.57;
   scene.add(right_wall);
+
+  var right_door = createMesh([800, 1200, 14], 'door.JPG');
+	right_door.position.x = walls.right.x;
+  right_door.position.y = -100;
+  right_door.position.z = walls.right.z;
+  right_door.rotation.y = -1.57;
+  scene.add(right_door);
+
+  right_door.on('click', swapRoom);
 
   var crate = createMesh([300, 300, 300], 'frame.jpg');
   crate.position.z = -100;
@@ -116,14 +125,14 @@ function init() {
     book.position.y = -230;
   });
 
-  //drawRadar();
+  drawRadar();
   /* Room 2 */
-  var floor2 = createMesh([2000, 10, 2000], 'Library_Ceiling.jpg');
+  var floor2 = createMesh([2000, 10, 2000], 'Dark-Wood.jpg');
   floor2.position.x = 2000;
   floor2.position.y = -650;
   scene.add(floor2);
 
-  var ceiling2 = createMesh([2000, 10, 2000], 'wood_ceiling.jpeg');
+	var ceiling2 = createMesh([2000, 10, 2000], 'white_ceil.JPG');
   ceiling2.position.x = 2000;
   ceiling2.position.y = 650;
   scene.add(ceiling2);
@@ -140,12 +149,12 @@ function init() {
   back_wall2.position.z = walls2.back.z;
   scene.add(back_wall2);
 
-  var left_wall2 = createMesh([2000, 1300, 10], 'book_wall.jpg');
+  /*var left_wall2 = createMesh([2000, 1300, 10], 'book_wall.jpg');
   left_wall2.position.x = walls2.left.x;
   left_wall2.position.y = walls2.left.y;
   left_wall2.position.z = walls2.left.z;
   left_wall2.rotation.y = 1.57;
-  scene.add(left_wall2);
+  scene.add(left_wall2);*/
 
   var right_wall2 = createMesh([2000, 1300, 10], 'book_wall.jpg');
   right_wall2.position.x = walls2.right.x;
@@ -161,7 +170,7 @@ function init() {
 
   window.addEventListener('resize', onWindowResize, false);
 
-  //document.getElementById('radar').addEventListener('click', onRadarClick, false);
+  document.getElementById('radar').addEventListener('click', onRadarClick, false);
 
   if(GameShim.supports.pointerLock) {
     document.documentElement.requestPointerLock();
@@ -250,7 +259,6 @@ function drawRadar() {
 //TODO: find a better way to represent and draw the map
 function drawMap() {
   var context = document.getElementById('radar').getContext('2d');
-
     
 //    context.translate(0,0);
 
@@ -258,22 +266,24 @@ function drawMap() {
 
 // context.translate(100,200);
 //     context.rotate(Math.PI/2);
+  context.fillStyle = '#000';
+  context.fillRect(0, 0, 200, 200);
   for(var z in map)
-      {
-        for(var i = 0; i < map[z].length; i++) {
-          context.beginPath();
-          context.moveTo(map[z][i][0], map[z][i][1]);
-    if(i == map[z].length - 1) {
-      context.lineTo(map[z][0][0], map[z][0][1]);
+  {
+    for(var i = 0; i < map[z].length; i++) {
+      context.beginPath();
+      context.moveTo(map[z][i][0], map[z][i][1]);
+      if(i == map[z].length - 1) {
+        context.lineTo(map[z][0][0], map[z][0][1]);
+      }
+      else {
+        context.lineTo(map[z][i+1][0], map[z][i+1][1]);
+      }
+      context.strokeStyle = 'white';
+      context.stroke();
     }
-    else {
-      context.lineTo(map[z][i+1][0], map[z][i+1][1]);
-    }
-    context.strokeStyle = 'red';
-    context.stroke();
-  } 
-          }
-  drawPlayerInMap();
+  }
+  //drawPlayerInMap();
 }
 
 //FIXME: dirty hack!!! find a better way to do this
@@ -295,8 +305,8 @@ function drawPlayerInMap() {
 }
 
 function onRadarClick(event) {
-  console.log(event);
-  var x = event.clientX;
+  //console.log(event);
+  /*var x = event.clientX;
   if(x < 66.67) {
     x = (x * 15) - 1000;
   }
@@ -312,5 +322,15 @@ function onRadarClick(event) {
   }
   //console.log(x, y);
   cam.position.x = x;
-  cam.position.z = y;
+  cam.position.z = y;*/
+  swapRoom();
+}
+
+function swapRoom() {
+  if(cam.position.x < 1000) {
+    cam.position.x = 1600;
+  }
+  else {
+    cam.position.x = -400;
+  }
 }
