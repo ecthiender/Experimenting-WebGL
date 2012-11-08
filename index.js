@@ -1,3 +1,16 @@
+var deltaX = 0,
+old_mouseX = 0,
+actualLookSpeed = 1,
+thetaD = 0;
+
+document.addEventListener( 'mousemove', bind( this, onMouseMove ), false );
+
+function bind( scope, fn ) {
+  return function () {
+    fn.apply( scope, arguments );
+  };
+};
+
 var cam, scene, renderer, controls;
 var geometry, material;
 var mouse = {x:0, y:0};
@@ -43,12 +56,12 @@ function init() {
 
   t.Object3D._threexDomEvent.camera(cam);
   // Camera moves with mouse, flies around with WASD/arrow keys
-  controls = new t.FirstPersonControls(cam); // Handles camera control
+/*  controls = new t.FirstPersonControls(cam); // Handles camera control
   controls.movementSpeed = MOVESPEED; // How fast the player can walk around
   controls.lookSpeed = LOOKSPEED; // How fast the player can look around with the mouse
   controls.lookVertical = false; //   Don't allow the player to look up or down. This is a temporary fix to keep people from flying
   controls.noFly = false; // Don't allow hitting R or F to go up or down
-
+*/
   var UNITSIZE = 100;
   var units = 1;
 
@@ -180,11 +193,28 @@ function init() {
 function animate() {
   // note: three.js includes requestAnimationFrame shim
   requestAnimationFrame(animate);
-  renderer.render(scene, cam);
-  //drawMap();
-  var delta = clock.getDelta();
-  controls.update(delta);
+  render();
 }
+
+function render(){
+  controls();
+  renderer.render(scene, cam);
+}  
+function controls() {
+  thetaD -= deltaX * actualLookSpeed;
+  theta = thetaD * Math.PI / 180;
+  lookPoint = new THREE.Vector3(0,0,0);
+  lookPoint.set(Math.sin(theta), 0, Math.cos(theta));
+  lookPoint.addSelf(cam.position);
+  cam.lookAt(this.lookPoint);
+  deltaX = 0;
+}
+
+function onMouseMove(event) {
+  deltaX = event.clientX - old_mouseX;
+  old_mouseX = event.clientX;
+}
+
 
 /* creates and returns a cube mesh with a texture
  * Parameters:
