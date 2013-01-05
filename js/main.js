@@ -12,12 +12,12 @@
     {
       id: 1,
       dimensions: [0.1, 0.45, 0.4],
-      faces: []
+      faces: ['images/aztec.jpg', 'images/aztec.jpg', 'images/aztec.jpg']
     },
     {
       id: 2,
       dimensions: [0.1, 0.45, 0.4],
-      faces: []
+      faces: ['images/aztec.jpg', 'images/aztec.jpg', 'images/aztec.jpg']
     }
   ];
 
@@ -33,7 +33,7 @@
     /* Camera!! */
     this.cam = new t.PerspectiveCamera(60, ASPECT, 0.1, 1000);
 
-    t.Object3D._threexDomEvent.camera(this.cam);
+    //t.Object3D._threexDomEvent.camera(this.cam);
 
     this.controls = new t.FirstPersonControls(this.cam);
     this.controls.movementSpeed = MOVESPEED;
@@ -112,13 +112,23 @@
     var z = -1;
     for(var i = 0; i < this.books_db.length; i++) {
       var dim = this.books_db[i].dimensions;
+      var faces = this.books_db[i].faces;
+      var maps = [
+        new t.MeshBasicMaterial({color: '0xffffff'}),
+        new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[0])}), 
+        new t.MeshBasicMaterial({color: '0xffffff'}),
+        new t.MeshBasicMaterial({color: '0xffffff'}),
+        new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[1])}),
+        new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[2])})
+      ];
       var mesh = new t.Mesh(
         new t.CubeGeometry(dim[0], dim[1], dim[2]),
-        new t.MeshBasicMaterial({color: '0xff0000'})
+        new t.MeshFaceMaterial(maps)
       );
       mesh.position.set(1, 1.86, z);
       mesh.rotation.set(0, 1.57, 0);
-      mesh.on('click', G.onBookClick);
+      //mesh.geometry.computeCentroids();
+      //mesh.on('click', G.onBookClick);
       this.meshes.push(mesh);
       this.scene.add(mesh);
       z += 0.2;

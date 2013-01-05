@@ -166,6 +166,7 @@ THREEx.DomEvent.prototype.bind	= function(object3d, eventName, callback, useCapt
 	
 	// add this object in this._boundObjs
 	this._boundObjs.push(object3d);
+  console.log(this._boundObjs);
 }
 
 THREEx.DomEvent.prototype.unbind	= function(object3d, eventName, callback)
@@ -206,11 +207,12 @@ THREEx.DomEvent.prototype._bound	= function(eventName, object3d)
 
 THREEx.DomEvent.prototype._onMove	= function(mouseX, mouseY, origDomEvent)
 {
-	var vector	= new THREE.Vector3( mouseX, mouseY, 1 );
+	var vector	= new THREE.Vector3( mouseX, mouseY, 5 );
 	this._projector.unprojectVector( vector, this._camera );
 
-	var ray		= new THREE.Ray( this._camera.position, vector.subSelf( this._camera.position ).normalize() );
+	var ray		= new THREE.Raycaster( this._camera.position, vector.subSelf( this._camera.position ).normalize() );
 	var intersects = ray.intersectObjects( this._boundObjs );
+  console.log(intersects);
 	
 	var oldSelected	= this._selected;
 
@@ -247,12 +249,13 @@ THREEx.DomEvent.prototype._onMove	= function(mouseX, mouseY, origDomEvent)
 
 THREEx.DomEvent.prototype._onEvent	= function(eventName, mouseX, mouseY, origDomEvent)
 {
-	var vector	= new THREE.Vector3( mouseX, mouseY, 1 );
+	var vector	= new THREE.Vector3( mouseX, mouseY, 5 );
 	this._projector.unprojectVector( vector, this._camera );
 
-	vector.subSelf( this._camera.position ).normalize()
-	var ray		= new THREE.Ray( this._camera.position, vector );
+	vector = vector.subSelf( this._camera.position ).normalize();
+	var ray		= new THREE.Raycaster( this._camera.position, vector );
 	var intersects	= ray.intersectObjects( this._boundObjs );
+  console.log(intersects);
 
 	// if there are no intersections, return now
 	if( intersects.length === 0 )	return;
