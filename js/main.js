@@ -139,7 +139,7 @@ G.load = function() {
     console.log('Could not detect WebGL. Quitting!');
     return;
   }
-  new t.SceneLoader().load('scenes/scene-ver2.js', function(result) {
+  new t.SceneLoader().load('scenes/scene-ver4.js', function(result) {
     //console.log('"the" scene js file ', result);
     G.init(result);
   });
