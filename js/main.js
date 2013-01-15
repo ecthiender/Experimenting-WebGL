@@ -11,20 +11,9 @@ var obj, INTERSECTED, SELECTED;
 G.meshes = [];
 
 // the books db
-G.books_db = [
-  {
-    id: 1,
-    dimensions: [0.1, 0.45, 0.4],
-    faces: ['images/aztec.jpg', 'images/aztec.jpg', 'images/aztec.jpg'],
-    url: 'http://openlibrary.org/works/OL15133491W/The_Aztecs_of_Mexico'
-  },
-  {
-    id: 2,
-    dimensions: [0.1, 0.45, 0.4],
-    faces: ['images/aztec.jpg', 'images/aztec.jpg', 'images/aztec.jpg'],
-    url: 'http://www.archive.org/stream/lifeadventurespy00defo#page/n7/mode/2up'
-  }
-];
+// @faces : array
+//  faces[2]: spine image, faces[1]: back cover, faces[0]: front cover
+G.books_db = [];
 
 G.init = function(result) {
   this.clock = new t.Clock();
@@ -54,7 +43,6 @@ G.init = function(result) {
   this.light.position.set(0, -20, 0);
   this.scene.add(this.light);
 
-  this.initBooks();
 
   obj = this;
   this.renderer = new t.WebGLRenderer({antialias: true});
@@ -123,6 +111,9 @@ G.init = function(result) {
 
   /* Action! */
   this.render();
+
+
+  this.loadBooks();
 };
 
 G.render = function() {
@@ -167,32 +158,44 @@ G.fixMouseMove = function() {
   G.deltaX = 0;
 };
 
+G.loadBooks = function() {
+  $.getJSON('books/books.json', function(books) {
+    G.books_db = books;
+    G.initBooks();
+  });
+};
+
 G.initBooks = function() {
-  var z = -1;
   for(var i = 0; i < this.books_db.length; i++) {
     var dim = this.books_db[i].dimensions;
     var faces = this.books_db[i].faces;
+    var pos = this.books_db[i].position;
+    var rot = this.books_db[i].rotation;
     var maps = [
-      new t.MeshBasicMaterial({color: '0xffffff'}),
       new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[0])}), 
+      new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[1])}), 
       new t.MeshBasicMaterial({color: '0xffffff'}),
       new t.MeshBasicMaterial({color: '0xffffff'}),
-      new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[1])}),
-      new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[2])})
+      new t.MeshBasicMaterial({map: t.ImageUtils.loadTexture(faces[2])}),
+      new t.MeshBasicMaterial({color: '0xffffff'})
     ];
     var mesh = new t.Mesh(
       new t.CubeGeometry(dim[0], dim[1], dim[2]),
       new t.MeshFaceMaterial(maps)
     );
-    mesh.position.set(1, 1.86, z);
-    mesh.rotation.set(0, 1.57, 0);
+    mesh.position.set(pos[0], pos[1], pos[2]);
+    if(rot) {
+      mesh.rotation.set(rot[0], rot[1], rot[2]);
+    }
+    else {
+      mesh.rotation.set(0, 1.57, 0);
+    }
     mesh.url = this.books_db[i].url;
     //mesh.geometry.computeCentroids();
     //mesh.on('click', G.onBookClick);
     this.meshes.push(mesh);
     objects.push(mesh);
     this.scene.add(mesh);
-    z += 0.2;
   }
 };
 
