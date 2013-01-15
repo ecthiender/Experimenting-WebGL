@@ -16,6 +16,7 @@ G.meshes = [];
 G.books_db = [];
 
 G.init = function(result) {
+  $('#loading').html('');
   this.clock = new t.Clock();
   this.deltaX = 0;
   this.thetaD = 0;

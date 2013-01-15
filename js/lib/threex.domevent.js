@@ -211,7 +211,7 @@ THREEx.DomEvent.prototype._onMove	= function(mouseX, mouseY, origDomEvent)
 	this._projector.unprojectVector( vector, this._camera );
 
 	var ray		= new THREE.Raycaster( this._camera.position, vector.subSelf( this._camera.position ).normalize() );
-	var intersects = ray.intersectObjects( this._boundObjs );
+	var intersects = ray.intersectObjects( this._boundObjs, true );
   console.log(intersects);
 	
 	var oldSelected	= this._selected;
@@ -254,7 +254,7 @@ THREEx.DomEvent.prototype._onEvent	= function(eventName, mouseX, mouseY, origDom
 
 	vector = vector.subSelf( this._camera.position ).normalize();
 	var ray		= new THREE.Raycaster( this._camera.position, vector );
-	var intersects	= ray.intersectObjects( this._boundObjs );
+	var intersects	= ray.intersectObjects( this._boundObjs, true );
   console.log(intersects);
 
 	// if there are no intersections, return now
